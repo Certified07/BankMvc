@@ -1,0 +1,447 @@
+﻿@{
+    ViewData["Title"] = "Welcome to SecureBank";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="display-4 fw-bold mb-4">
+                        Banking Made Simple & Secure
+                    </h1>
+                    <p class="lead mb-4">
+                        Experience the future of banking with our secure, user-friendly platform.
+                        Manage your finances with confidence and convenience.
+                    </p>
+                    <div class="hero-buttons">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="alert alert-success d-inline-block">
+                                <i class="fas fa-user-check"></i> Welcome back, @User.Identity.Name!
+                            </div>
+                            <div class="mt-3">
+                                <a href="#" class="btn btn-light btn-lg me-3">
+                                    <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+                                </a>
+                                <a href="#services" class="btn btn-outline-light btn-lg">
+                                    <i class="fas fa-info-circle"></i> Our Services
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <a asp-controller="Auth" asp-action="Register" class="btn btn-success btn-lg me-3">
+                                <i class="fas fa-user-plus"></i> Open Account
+                            </a>
+                            <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-sign-in-alt"></i> Sign In
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image text-center">
+                    <div class="banking-graphic">
+                        <i class="fas fa-university fa-10x opacity-75"></i>
+                        <div class="floating-icons">
+                            <i class="fas fa-shield-alt text-success"></i>
+                            <i class="fas fa-mobile-alt text-info"></i>
+                            <i class="fas fa-chart-line text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Stats Section -->
+<section class="stats-section py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="stat-item">
+                    <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                    <h3 class="fw-bold">500K+</h3>
+                    <p class="text-muted">Happy Customers</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="stat-item">
+                    <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
+                    <h3 class="fw-bold">100%</h3>
+                    <p class="text-muted">Secure Transactions</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="stat-item">
+                    <i class="fas fa-clock fa-3x text-info mb-3"></i>
+                    <h3 class="fw-bold">24/7</h3>
+                    <p class="text-muted">Customer Support</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="stat-item">
+                    <i class="fas fa-globe fa-3x text-warning mb-3"></i>
+                    <h3 class="fw-bold">150+</h3>
+                    <p class="text-muted">Countries Served</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="services-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center mb-5">
+                <h2 class="display-5 fw-bold">Our Banking Services</h2>
+                <p class="lead text-muted">Comprehensive financial solutions for all your needs</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-piggy-bank fa-4x text-primary mb-3"></i>
+                        <h4 class="card-title">Savings Account</h4>
+                        <p class="card-text">Secure your future with our high-yield savings accounts. Earn competitive interest rates while keeping your money safe.</p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> No minimum balance</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Competitive interest rates</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Mobile banking access</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-credit-card fa-4x text-success mb-3"></i>
+                        <h4 class="card-title">Credit Cards</h4>
+                        <p class="card-text">Choose from our range of credit cards with exclusive benefits, rewards, and cashback offers.</p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Reward points program</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Zero annual fee options</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Global acceptance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-home fa-4x text-info mb-3"></i>
+                        <h4 class="card-title">Home Loans</h4>
+                        <p class="card-text">Make your dream home a reality with our flexible home loan options and competitive interest rates.</p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Low interest rates</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Flexible repayment terms</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Quick approval process</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-chart-line fa-4x text-warning mb-3"></i>
+                        <h4 class="card-title">Investment</h4>
+                        <p class="card-text">Grow your wealth with our expert investment advice and diverse portfolio options.</p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Expert financial advisors</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Diversified portfolios</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Real-time market updates</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-mobile-alt fa-4x text-danger mb-3"></i>
+                        <h4 class="card-title">Mobile Banking</h4>
+                        <p class="card-text">Bank on the go with our secure mobile app. Transfer funds, pay bills, and monitor accounts anytime, anywhere.</p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Secure biometric login</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Instant notifications</li>
+                            <li><i class="fas fa-check text-success me-2"></i> 24/7 access</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-briefcase fa-4x text-secondary mb-3"></i>
+                        <h4 class="card-title">Business Banking</h4>
+                        <p class="card-text">Comprehensive banking solutions for businesses of all sizes. From startups to enterprises.</p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Business accounts</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Merchant services</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Business loans</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+@if (!User.Identity.IsAuthenticated)
+{
+    <section class="cta-section bg-gradient-primary text-white py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h3 class="mb-2">Ready to Start Your Banking Journey?</h3>
+                    <p class="mb-0">Join thousands of satisfied customers who trust us with their financial needs. Open your account today!</p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a asp-controller="Auth" asp-action="Register" class="btn btn-success btn-lg me-2">
+                        <i class="fas fa-user-plus"></i> Get Started
+                    </a>
+                    <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <h5 class="fw-bold mb-3">
+                    <i class="fas fa-university me-2"></i>SecureBank
+                </h5>
+                <p class="text-light">Your trusted financial partner for all your banking needs. Secure, reliable, and always here for you.</p>
+                <div class="social-links">
+                    <a href="#" class="text-white me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h6 class="fw-bold mb-3">Services</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-light text-decoration-none">Savings</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Loans</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Credit Cards</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Investment</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h6 class="fw-bold mb-3">Support</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-light text-decoration-none">Help Center</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Contact Us</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Security</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Privacy</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <h6 class="fw-bold mb-3">Contact Info</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-phone me-2"></i>
+                        <span>1-800-BANK-HELP</span>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-envelope me-2"></i>
+                        <span>support@securebank.com</span>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        <span>123 Banking Street, Financial District</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock me-2"></i>
+                        <span>24/7 Customer Support</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0">&copy; 2025 SecureBank. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="#" class="text-light text-decoration-none me-3">Terms of Service</a>
+                <a href="#" class="text-light text-decoration-none me-3">Privacy Policy</a>
+                <a href="#" class="text-light text-decoration-none">Cookie Policy</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Custom Styles -->
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 60vh;
+    }
+
+    .min-vh-50 {
+        min-height: 50vh;
+    }
+
+    .banking-graphic {
+        position: relative;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .floating-icons {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: column;
+        padding: 2rem;
+    }
+
+        .floating-icons i {
+            font-size: 2rem;
+            animation: bounce 2s ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+            .floating-icons i:nth-child(1) {
+                --delay: 0s;
+            }
+
+            .floating-icons i:nth-child(2) {
+                --delay: 0.5s;
+            }
+
+            .floating-icons i:nth-child(3) {
+                --delay: 1s;
+            }
+
+    .service-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 15px;
+    }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+    .stat-item {
+        transition: transform 0.3s ease;
+    }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .social-links a {
+        transition: color 0.3s ease;
+    }
+
+        .social-links a:hover {
+            color: #007bff !important;
+        }
+
+   
+    
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    
+
+   
+
+    {
+        transform: translateY(0);
+    }
+
+    40%, 43% {
+        transform: translateY(-10px);
+    }
+
+    70% {
+        transform: translateY(-5px);
+    }
+
+    
+
+    
+      
+
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .hero-buttons .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    }
+</style>
+
+<!-- Custom JavaScript -->
+<script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add scroll effect to stats
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe all service cards and stat items
+    document.querySelectorAll('.service-card, .stat-item').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+</script>
