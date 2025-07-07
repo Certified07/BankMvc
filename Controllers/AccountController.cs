@@ -1099,11 +1099,15 @@ namespace BankMvc.Controllers
                 }
 
                 // Create account using service layer
+                //if (CreateAccountViewModel. == null)
+                //{
+                    
+                //}
                 var createAccountDto = new CreateAccountDto
                 {
                     UserId = int.Parse(userId),
                     Type = model.AccountType.ToString(),
-                    InitialBalance = model.InitialDeposit
+                    Balance = model.InitialDeposit
                 };
 
                 var createResult = await _accountService.CreateAsync(createAccountDto);

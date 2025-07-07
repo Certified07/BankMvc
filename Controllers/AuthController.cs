@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using BankMvc.Models.Entity;
 using System.Security.Claims;
-using BankMvc.Services;
 using BankMvc.Contract.Service;
 using BankMvc.DTO.ViewModels;
 using Bank.Services;
 using BankMvc.Contract.Repository;
 using Microsoft.AspNetCore.Identity;
+using BankMvc.Service;
 
 namespace BankMvc.Controllers
 {
@@ -37,6 +37,7 @@ namespace BankMvc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             if (ModelState.IsValid)
@@ -147,6 +148,7 @@ namespace BankMvc.Controllers
                     await _authService.CreateUserAsync(user, model.Password);
                     var result = AuthResult.Success("User created successfully", user);
 
+                    return RedirectToAction("Login");
               
                 }
                 catch (Exception ex)

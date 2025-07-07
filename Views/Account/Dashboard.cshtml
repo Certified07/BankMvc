@@ -1,563 +1,4 @@
-﻿@* @model BankMvc.DTO.ViewModels.DashboardViewModel *@
-@* @{ *@
-@*     ViewData["Title"] = "Dashboard - SecureBank"; *@
-@*     Layout = "~/Views/Shared/_Layout.cshtml"; *@
-@* } *@
-
-@* <!-- Dashboard Section --> *@
-@* <div class="dashboard-container"> *@
-@*     <!-- Header Section --> *@
-@*     <div class="dashboard-header bg-gradient-primary text-white"> *@
-@*         <div class="container py-4"> *@
-@*             <div class="row align-items-center"> *@
-@*                 <div class="col-md-8"> *@
-@*                     <h1 class="h3 mb-1"> *@
-@*                         <i class="fas fa-tachometer-alt me-2"></i> *@
-@*                         Welcome back, @Model.UserName! *@
-@*                     </h1> *@
-@*                     <p class="mb-0 opacity-75"> *@
-@*                         <i class="fas fa-clock me-1"></i> *@
-@*                         Last login: @Model.LastLoginDate.ToString("MMM dd, yyyy 'at' h:mm tt") *@
-@*                     </p> *@
-@*                 </div> *@
-@*                 <div class="col-md-4 text-md-end"> *@
-@*                     <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#createAccountModal"> *@
-@*                         <i class="fas fa-plus me-1"></i> *@
-@*                         New Account *@
-@*                     </button> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-
-@*     <!-- Statistics Cards --> *@
-@*     <div class="container mt-4"> *@
-@*         <div class="row g-4 mb-4"> *@
-@*             <div class="col-md-4"> *@
-@*                 <div class="stat-card card border-0 shadow-sm"> *@
-@*                     <div class="card-body"> *@
-@*                         <div class="d-flex align-items-center"> *@
-@*                             <div class="stat-icon bg-success text-white rounded-circle me-3"> *@
-@*                                 <i class="fas fa-wallet"></i> *@
-@*                             </div> *@
-@*                             <div> *@
-@*                                 <h6 class="text-muted mb-1">Total Balance</h6> *@
-@*                                 <h4 class="mb-0 text-success">@Model.TotalBalance.ToString("C")</h4> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*             <div class="col-md-4"> *@
-@*                 <div class="stat-card card border-0 shadow-sm"> *@
-@*                     <div class="card-body"> *@
-@*                         <div class="d-flex align-items-center"> *@
-@*                             <div class="stat-icon bg-info text-white rounded-circle me-3"> *@
-@*                                 <i class="fas fa-arrow-up"></i> *@
-@*                             </div> *@
-@*                             <div> *@
-@*                                 <h6 class="text-muted mb-1">Monthly Income</h6> *@
-@*                                 <h4 class="mb-0 text-info">@Model.MonthlyIncome.ToString("C")</h4> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*             <div class="col-md-4"> *@
-@*                 <div class="stat-card card border-0 shadow-sm"> *@
-@*                     <div class="card-body"> *@
-@*                         <div class="d-flex align-items-center"> *@
-@*                             <div class="stat-icon bg-warning text-white rounded-circle me-3"> *@
-@*                                 <i class="fas fa-exchange-alt"></i> *@
-@*                             </div> *@
-@*                             <div> *@
-@*                                 <h6 class="text-muted mb-1">Monthly Transactions</h6> *@
-@*                                 <h4 class="mb-0 text-warning">@Model.MonthlyTransactions</h4> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-
-@*         <!-- Accounts and Transactions Row --> *@
-@*         <div class="row g-4"> *@
-@*             <!-- Accounts Section --> *@
-@*             <div class="col-lg-8"> *@
-@*                 <div class="card border-0 shadow-sm"> *@
-@*                     <div class="card-header bg-white border-bottom-0 py-3"> *@
-@*                         <h5 class="mb-0"> *@
-@*                             <i class="fas fa-piggy-bank me-2 text-primary"></i> *@
-@*                             Your Accounts *@
-@*                         </h5> *@
-@*                     </div> *@
-@*                     <div class="card-body p-0"> *@
-@*                         @if (Model.Accounts.Any()) *@
-@*                         { *@
-@*                             <div class="table-responsive"> *@
-@*                                 <table class="table table-hover mb-0"> *@
-@*                                     <thead class="table-light"> *@
-@*                                         <tr> *@
-@*                                             <th>Account</th> *@
-@*                                             <th>Type</th> *@
-@*                                             <th>Balance</th> *@
-@*                                             <th>Actions</th> *@
-@*                                         </tr> *@
-@*                                     </thead> *@
-@*                                     <tbody> *@
-@*                                         @foreach (var account in Model.Accounts) *@
-@*                                         { *@
-@*                                             <tr> *@
-@*                                                 <td> *@
-@*                                                     <div> *@
-@*                                                         <strong>@account.AccountNumber</strong> *@
-@*                                                         <br> *@
-@*                                                         <small class="text-muted"> *@
-@*                                                             Created: @account.CreatedAt.ToString("MMM dd, yyyy") *@
-@*                                                         </small> *@
-@*                                                     </div> *@
-@*                                                 </td> *@
-@*                                                 <td> *@
-@*                                                     <span class="badge bg-light text-dark">@account.AccountType</span> *@
-@*                                                 </td> *@
-@*                                                 <td> *@
-@*                                                     <strong class="@(account.Balance >= 0 ? "text-success" : "text-danger")"> *@
-@*                                                         @account.Balance.ToString("C") *@
-@*                                                     </strong> *@
-@*                                                 </td> *@
-@*                                                 <td> *@
-@*                                                     <div class="btn-group btn-group-sm"> *@
-@*                                                         <button class="btn btn-outline-primary" onclick="showDepositModal(@account.AccountId, '@account.AccountNumber')"> *@
-@*                                                             <i class="fas fa-plus"></i> *@
-@*                                                         </button> *@
-@*                                                         <button class="btn btn-outline-success" onclick="showTransferModal(@account.AccountId, '@account.AccountNumber')"> *@
-@*                                                             <i class="fas fa-exchange-alt"></i> *@
-@*                                                         </button> *@
-@*                                                         <a asp-action="Transactions" asp-route-id="@account.AccountId" class="btn btn-outline-info"> *@
-@*                                                             <i class="fas fa-list"></i> *@
-@*                                                         </a> *@
-@*                                                         <a asp-action="Statement" asp-route-id="@account.AccountId" class="btn btn-outline-secondary"> *@
-@*                                                             <i class="fas fa-file-alt"></i> *@
-@*                                                         </a> *@
-@*                                                     </div> *@
-@*                                                 </td> *@
-@*                                             </tr> *@
-@*                                         } *@
-@*                                     </tbody> *@
-@*                                 </table> *@
-@*                             </div> *@
-@*                         } *@
-@*                         else *@
-@*                         { *@
-@*                             <div class="text-center py-5"> *@
-@*                                 <i class="fas fa-piggy-bank fa-3x text-muted mb-3"></i> *@
-@*                                 <h6 class="text-muted">No accounts found</h6> *@
-@*                                 <p class="text-muted mb-3">Create your first account to get started</p> *@
-@*                                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAccountModal"> *@
-@*                                     <i class="fas fa-plus me-1"></i> *@
-@*                                     Create Account *@
-@*                                 </button> *@
-@*                             </div> *@
-@*                         } *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-
-@*             <!-- Recent Transactions --> *@
-@*             <div class="col-lg-4"> *@
-@*                 <div class="card border-0 shadow-sm"> *@
-@*                     <div class="card-header bg-white border-bottom-0 py-3"> *@
-@*                         <h5 class="mb-0"> *@
-@*                             <i class="fas fa-history me-2 text-primary"></i> *@
-@*                             Recent Transactions *@
-@*                         </h5> *@
-@*                     </div> *@
-@*                     <div class="card-body p-0"> *@
-@*                         @if (Model.RecentTransactions.Any()) *@
-@*                         { *@
-@*                             <div class="transaction-list"> *@
-@*                                 @foreach (var transaction in Model.RecentTransactions) *@
-@*                                 { *@
-@*                                     <div class="transaction-item p-3 border-bottom"> *@
-@*                                         <div class="d-flex justify-content-between align-items-start"> *@
-@*                                             <div class="flex-grow-1"> *@
-@*                                                 <div class="d-flex align-items-center mb-1"> *@
-@*                                                     <i class="fas @(transaction.TransactionType == "Credit" ? "fa-arrow-up text-success" : "fa-arrow-down text-danger") me-2"></i> *@
-@*                                                     <strong class="@(transaction.TransactionType == "Credit" ? "text-success" : "text-danger")"> *@
-@*                                                         @transaction.Amount.ToString("C") *@
-@*                                                     </strong> *@
-@*                                                 </div> *@
-@*                                                 <p class="mb-1 small">@transaction.Description</p> *@
-@*                                                 <small class="text-muted"> *@
-@*                                                     @transaction.TransactionDate.ToString("MMM dd, h:mm tt") *@
-@*                                                 </small> *@
-@*                                             </div> *@
-@*                                         </div> *@
-@*                                     </div> *@
-@*                                 } *@
-@*                             </div> *@
-@*                         } *@
-@*                         else *@
-@*                         { *@
-@*                             <div class="text-center py-4"> *@
-@*                                 <i class="fas fa-history fa-2x text-muted mb-2"></i> *@
-@*                                 <p class="text-muted mb-0">No recent transactions</p> *@
-@*                             </div> *@
-@*                         } *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-
-@* <!-- Create Account Modal --> *@
-@* <div class="modal fade" id="createAccountModal" tabindex="-1"> *@
-@*     <div class="modal-dialog"> *@
-@*         <div class="modal-content"> *@
-@*             <div class="modal-header"> *@
-@*                 <h5 class="modal-title"> *@
-@*                     <i class="fas fa-plus-circle me-2"></i> *@
-@*                     Create New Account *@
-@*                 </h5> *@
-@*                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button> *@
-@*             </div> *@
-@*             <form id="createAccountForm"> *@
-@*                 <div class="modal-body"> *@
-@*                     <div class="mb-3"> *@
-@*                         <label for="accountType" class="form-label">Account Type</label> *@
-@*                         <select class="form-select" id="accountType" name="AccountType" required> *@
-@*                             <option value="">Select account type</option> *@
-@*                             <option value="Checking">Checking Account</option> *@
-@*                             <option value="Savings">Savings Account</option> *@
-@*                             <option value="Business">Business Account</option> *@
-@*                         </select> *@
-@*                     </div> *@
-@*                     <div class="mb-3"> *@
-@*                         <label for="initialDeposit" class="form-label">Initial Deposit</label> *@
-@*                         <div class="input-group"> *@
-@*                             <span class="input-group-text">$</span> *@
-@*                             <input type="number" class="form-control" id="initialDeposit" name="InitialDeposit" min="0" step="0.01" value="0"> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*                 <div class="modal-footer"> *@
-@*                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button> *@
-@*                     <button type="submit" class="btn btn-primary"> *@
-@*                         <i class="fas fa-plus me-1"></i> *@
-@*                         Create Account *@
-@*                     </button> *@
-@*                 </div> *@
-@*             </form> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-
-@* <!-- Deposit Modal --> *@
-@* <div class="modal fade" id="depositModal" tabindex="-1"> *@
-@*     <div class="modal-dialog"> *@
-@*         <div class="modal-content"> *@
-@*             <div class="modal-header"> *@
-@*                 <h5 class="modal-title"> *@
-@*                     <i class="fas fa-plus-circle me-2"></i> *@
-@*                     Make Deposit *@
-@*                 </h5> *@
-@*                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button> *@
-@*             </div> *@
-@*             <form id="depositForm"> *@
-@*                 <div class="modal-body"> *@
-@*                     <input type="hidden" id="depositAccountId" name="AccountId"> *@
-@*                     <div class="mb-3"> *@
-@*                         <label class="form-label">Account</label> *@
-@*                         <input type="text" class="form-control" id="depositAccountNumber" readonly> *@
-@*                     </div> *@
-@*                     <div class="mb-3"> *@
-@*                         <label for="depositAmount" class="form-label">Amount</label> *@
-@*                         <div class="input-group"> *@
-@*                             <span class="input-group-text">$</span> *@
-@*                             <input type="number" class="form-control" id="depositAmount" name="Amount" min="0.01" step="0.01" required> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                     <div class="mb-3"> *@
-@*                         <label for="depositDescription" class="form-label">Description (Optional)</label> *@
-@*                         <input type="text" class="form-control" id="depositDescription" name="Description" placeholder="e.g., Salary deposit"> *@
-@*                     </div> *@
-@*                 </div> *@
-@*                 <div class="modal-footer"> *@
-@*                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button> *@
-@*                     <button type="submit" class="btn btn-success"> *@
-@*                         <i class="fas fa-plus me-1"></i> *@
-@*                         Deposit *@
-@*                     </button> *@
-@*                 </div> *@
-@*             </form> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-
-@* <!-- Transfer Modal --> *@
-@* <div class="modal fade" id="transferModal" tabindex="-1"> *@
-@*     <div class="modal-dialog"> *@
-@*         <div class="modal-content"> *@
-@*             <div class="modal-header"> *@
-@*                 <h5 class="modal-title"> *@
-@*                     <i class="fas fa-exchange-alt me-2"></i> *@
-@*                     Transfer Money *@
-@*                 </h5> *@
-@*                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button> *@
-@*             </div> *@
-@*             <form id="transferForm"> *@
-@*                 <div class="modal-body"> *@
-@*                     <input type="hidden" id="transferFromAccountId" name="FromAccountId"> *@
-@*                     <div class="mb-3"> *@
-@*                         <label class="form-label">From Account</label> *@
-@*                         <input type="text" class="form-control" id="transferFromAccountNumber" readonly> *@
-@*                     </div> *@
-@*                     <div class="mb-3"> *@
-@*                         <label for="transferToAccountNumber" class="form-label">To Account Number</label> *@
-@*                         <input type="text" class="form-control" id="transferToAccountNumber" name="ToAccountNumber" required> *@
-@*                     </div> *@
-@*                     <div class="mb-3"> *@
-@*                         <label for="transferAmount" class="form-label">Amount</label> *@
-@*                         <div class="input-group"> *@
-@*                             <span class="input-group-text">$</span> *@
-@*                             <input type="number" class="form-control" id="transferAmount" name="Amount" min="0.01" step="0.01" required> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                     <div class="mb-3"> *@
-@*                         <label for="transferDescription" class="form-label">Description (Optional)</label> *@
-@*                         <input type="text" class="form-control" id="transferDescription" name="Description" placeholder="e.g., Rent payment"> *@
-@*                     </div> *@
-@*                 </div> *@
-@*                 <div class="modal-footer"> *@
-@*                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button> *@
-@*                     <button type="submit" class="btn btn-primary"> *@
-@*                         <i class="fas fa-exchange-alt me-1"></i> *@
-@*                         Transfer *@
-@*                     </button> *@
-@*                 </div> *@
-@*             </form> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-
-@* <!-- Custom Styles --> *@
-@* <style> *@
-@*     .dashboard-header { *@
-@*         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); *@
-@*     } *@
-
-@*     .stat-card { *@
-@*         transition: transform 0.3s ease, box-shadow 0.3s ease; *@
-@*     } *@
-
-@*         .stat-card:hover { *@
-@*             transform: translateY(-2px); *@
-@*             box-shadow: 0 8px 25px rgba(0,0,0,0.15); *@
-@*         } *@
-
-@*     .stat-icon { *@
-@*         width: 50px; *@
-@*         height: 50px; *@
-@*         display: flex; *@
-@*         align-items: center; *@
-@*         justify-content: center; *@
-@*         font-size: 1.2rem; *@
-@*     } *@
-
-@*     .transaction-item:last-child { *@
-@*         border-bottom: none !important; *@
-@*     } *@
-
-@*     .transaction-list { *@
-@*         max-height: 400px; *@
-@*         overflow-y: auto; *@
-@*     } *@
-
-@*     .btn-group-sm .btn { *@
-@*         padding: 0.25rem 0.5rem; *@
-@*         font-size: 0.875rem; *@
-@*     } *@
-
-@*     .table td { *@
-@*         vertical-align: middle; *@
-@*     } *@
-
-@*     .modal-content { *@
-@*         border: none; *@
-@*         border-radius: 15px; *@
-@*         box-shadow: 0 15px 35px rgba(0,0,0,0.1); *@
-@*     } *@
-
-@*     .modal-header { *@
-@*         border-bottom: 1px solid #e9ecef; *@
-@*         border-radius: 15px 15px 0 0; *@
-@*     } *@
-
-@*     .form-control:focus, .form-select:focus { *@
-@*         border-color: #667eea; *@
-@*         box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25); *@
-@*     } *@
-@* </style> *@
-
-@* @section Scripts { *@
-@*     <script> *@
-@*         // Show deposit modal *@
-@*         function showDepositModal(accountId, accountNumber) { *@
-@*             document.getElementById('depositAccountId').value = accountId; *@
-@*             document.getElementById('depositAccountNumber').value = accountNumber; *@
-@*             const modal = new bootstrap.Modal(document.getElementById('depositModal')); *@
-@*             modal.show(); *@
-@*         } *@
-
-@*         // Show transfer modal *@
-@*         function showTransferModal(accountId, accountNumber) { *@
-@*             document.getElementById('transferFromAccountId').value = accountId; *@
-@*             document.getElementById('transferFromAccountNumber').value = accountNumber; *@
-@*             const modal = new bootstrap.Modal(document.getElementById('transferModal')); *@
-@*             modal.show(); *@
-@*         } *@
-
-@*         // Handle create account form *@
-@*         document.getElementById('createAccountForm').addEventListener('submit', function(e) { *@
-@*             e.preventDefault(); *@
-
-@*             const formData = new FormData(this); *@
-@*             const submitBtn = this.querySelector('button[type="submit"]'); *@
-@*             const originalText = submitBtn.innerHTML; *@
-
-@*             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Creating...'; *@
-@*             submitBtn.disabled = true; *@
-
-@*             fetch('@Url.Action("CreateAccount", "Account")', { *@
-@*                 method: 'POST', *@
-@*                 body: formData *@
-@*             }) *@
-@*             .then(response => response.json()) *@
-@*             .then(data => { *@
-@*                 if (data.success) { *@
-@*                     showAlert('success', data.message); *@
-@*                     const modal = bootstrap.Modal.getInstance(document.getElementById('createAccountModal')); *@
-@*                     modal.hide(); *@
-@*                     setTimeout(() => location.reload(), 1500); *@
-@*                 } else { *@
-@*                     showAlert('danger', data.message); *@
-@*                 } *@
-@*             }) *@
-@*             .catch(error => { *@
-@*                 showAlert('danger', 'An error occurred. Please try again.'); *@
-@*                 console.error('Error:', error); *@
-@*             }) *@
-@*             .finally(() => { *@
-@*                 submitBtn.innerHTML = originalText; *@
-@*                 submitBtn.disabled = false; *@
-@*             }); *@
-@*         }); *@
-
-@*         // Handle deposit form *@
-@*         document.getElementById('depositForm').addEventListener('submit', function(e) { *@
-@*             e.preventDefault(); *@
-
-@*             const formData = new FormData(this); *@
-@*             const submitBtn = this.querySelector('button[type="submit"]'); *@
-@*             const originalText = submitBtn.innerHTML; *@
-
-@*             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Processing...'; *@
-@*             submitBtn.disabled = true; *@
-
-@*             fetch('@Url.Action("Deposit", "Account")', { *@
-@*                 method: 'POST', *@
-@*                 body: formData *@
-@*             }) *@
-@*             .then(response => response.json()) *@
-@*             .then(data => { *@
-@*                 if (data.success) { *@
-@*                     showAlert('success', data.message); *@
-@*                     const modal = bootstrap.Modal.getInstance(document.getElementById('depositModal')); *@
-@*                     modal.hide(); *@
-@*                     setTimeout(() => location.reload(), 1500); *@
-@*                 } else { *@
-@*                     showAlert('danger', data.message); *@
-@*                 } *@
-@*             }) *@
-@*             .catch(error => { *@
-@*                 showAlert('danger', 'An error occurred. Please try again.'); *@
-@*                 console.error('Error:', error); *@
-@*             }) *@
-@*             .finally(() => { *@
-@*                 submitBtn.innerHTML = originalText; *@
-@*                 submitBtn.disabled = false; *@
-@*             }); *@
-@*         }); *@
-
-@*         // Handle transfer form *@
-@*         document.getElementById('transferForm').addEventListener('submit', function(e) { *@
-@*             e.preventDefault(); *@
-
-@*             const formData = new FormData(this); *@
-@*             const submitBtn = this.querySelector('button[type="submit"]'); *@
-@*             const originalText = submitBtn.innerHTML; *@
-
-@*             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Processing...'; *@
-@*             submitBtn.disabled = true; *@
-
-@*             fetch('@Url.Action("Transfer", "Account")', { *@
-@*                 method: 'POST', *@
-@*                 body: formData *@
-@*             }) *@
-@*             .then(response => response.json()) *@
-@*             .then(data => { *@
-@*                 if (data.success) { *@
-@*                     showAlert('success', data.message); *@
-@*                     const modal = bootstrap.Modal.getInstance(document.getElementById('transferModal')); *@
-@*                     modal.hide(); *@
-@*                     setTimeout(() => location.reload(), 1500); *@
-@*                 } else { *@
-@*                     showAlert('danger', data.message); *@
-@*                 } *@
-@*             }) *@
-@*             .catch(error => { *@
-@*                 showAlert('danger', 'An error occurred. Please try again.'); *@
-@*                 console.error('Error:', error); *@
-@*             }) *@
-@*             .finally(() => { *@
-@*                 submitBtn.innerHTML = originalText; *@
-@*                 submitBtn.disabled = false; *@
-@*             }); *@
-@*         }); *@
-
-@*         // Show alert messages *@
-@*         function showAlert(type, message) { *@
-@*             const alertDiv = document.createElement('div'); *@
-@*             alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`; *@
-@*             alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;'; *@
-@*             alertDiv.innerHTML = ` *@
-@*                 ${message} *@
-@*                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button> *@
-@*             `; *@
-
-@*             document.body.appendChild(alertDiv); *@
-
-@*             setTimeout(() => { *@
-@*                 if (alertDiv && alertDiv.parentNode) { *@
-@*                     alertDiv.parentNode.removeChild(alertDiv); *@
-@*                 } *@
-@*             }, 5000); *@
-@*         } *@
-
-@*         // Reset forms when modals are hidden *@
-@*         document.querySelectorAll('.modal').forEach(modal => { *@
-@*             modal.addEventListener('hidden.bs.modal', function () { *@
-@*                 const form = this.querySelector('form'); *@
-@*                 if (form) { *@
-@*                     form.reset(); *@
-@*                 } *@
-@*             }); *@
-@*         }); *@
-@*     </script> *@
-@* } *@
-
-@model BankMvc.DTO.ViewModels.DashboardViewModel
+﻿@model BankMvc.DTO.ViewModels.DashboardViewModel
 @{
     ViewData["Title"] = "Dashboard - SecureBank";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -712,6 +153,11 @@
                                                                 onclick="showDepositModal(@account.AccountId, '@account.AccountNumber')"
                                                                 title="Deposit">
                                                             <i class="fas fa-plus"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-danger"
+                                                                onclick="showWithdrawModal(@account.AccountId, '@account.AccountNumber')"
+                                                                title="Withdraw">
+                                                            <i class="fas fa-minus"></i>
                                                         </button>
                                                         <button class="btn btn-outline-success"
                                                                 onclick="showTransferModal(@account.AccountId, '@account.AccountNumber')"
@@ -969,6 +415,48 @@
     </div>
 </div>
 
+<!-- Withdraw Modal -->
+<div class="modal fade" id="withdrawModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-minus-circle me-2"></i>
+                    Make Withdrawal
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="withdrawForm">
+                <div class="modal-body">
+                    <input type="hidden" id="withdrawAccountId" name="AccountId">
+                    <div class="mb-3">
+                        <label class="form-label">Account</label>
+                        <input type="text" class="form-control" id="withdrawAccountNumber" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="withdrawAmount" class="form-label">Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="withdrawAmount" name="Amount" min="0.01" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="withdrawDescription" class="form-label">Description (Optional)</label>
+                        <input type="text" class="form-control" id="withdrawDescription" name="Description" placeholder="e.g., ATM withdrawal">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-minus me-1"></i>
+                        Withdraw
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Transfer Modal -->
 <div class="modal fade" id="transferModal" tabindex="-1">
     <div class="modal-dialog">
@@ -1130,6 +618,15 @@
             document.getElementById('depositAccountId').value = accountId;
             document.getElementById('depositAccountNumber').value = accountNumber;
             const modal = new bootstrap.Modal(document.getElementById('depositModal'));
+            modal.show();
+        }
+               function showWithdrawModal(accountId, accountNumber) {
+            document.getElementById('withdrawAccountId').value = accountId;
+            document.getElementById('withdrawAccountNumber').value = accountNumber;
+            document.getElementById('withdrawAmount').value = '';
+            document.getElementById('withdrawDescription').value = '';
+
+            const modal = new bootstrap.Modal(document.getElementById('withdrawModal'));
             modal.show();
         }
 
@@ -1305,7 +802,48 @@
                 submitBtn.disabled = false;
             });
         });
+        //Withdrawal
+                function showWithdrawModal(accountId, accountNumber) {
+            document.getElementById('withdrawAccountId').value = accountId;
+            document.getElementById('withdrawAccountNumber').value = accountNumber;
+            document.getElementById('withdrawAmount').value = '';
+            document.getElementById('withdrawDescription').value = '';
 
+            const modal = new bootstrap.Modal(document.getElementById('withdrawModal'));
+            modal.show();
+        }
+
+        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Processing...';
+            submitBtn.disabled = true;
+            fetch('@Url.Action("Withdraw", "Account")', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('withdrawModal'));
+                    modal.hide();
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                showAlert('danger', 'An error occurred. Please try again.');
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        });
         // Handle transfer form
         document.getElementById('transferForm').addEventListener('submit', function(e) {
             e.preventDefault();

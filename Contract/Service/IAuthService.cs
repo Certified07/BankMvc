@@ -23,8 +23,8 @@
 //}
 using BankMvc.Models.Entity;
 using BankMvc.DTO;
-using BankMvc.Services;
 using BankMvc.DTO.ViewModels;
+using BankMvc.Service;
 
 namespace BankMvc.Contract.Service
 {

@@ -3,7 +3,7 @@ using Bank.Services;
 using BankMvc.Contract.Repository;
 using BankMvc.Contract.Service;
 using BankMvc.Repository;
-using BankMvc.Services;
+using BankMvc.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

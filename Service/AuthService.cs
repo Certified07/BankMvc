@@ -8,7 +8,7 @@ using BankMvc.Contract.Service;
 using BankMvc.DTO.ViewModels;
 using Microsoft.Extensions.Logging;
 
-namespace BankMvc.Services
+namespace BankMvc.Service
 {
     public class AuthService : IAuthService
     {

@@ -81,6 +81,44 @@ namespace Bank.Services
             }
         }
 
+        //public async Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto createAccountDto)
+        //{
+        //    try
+        //    {
+        //        if (createAccountDto == null)
+        //            return ServiceResult<AccountDto>.FailureResult("Account data is required");
+
+        //        if (string.IsNullOrWhiteSpace(createAccountDto.AccountNumber))
+        //        {
+        //            string accountNumber = GenerateAccountNumber();
+        //            var account = new Account
+        //            {
+        //                UserId = createAccountDto.UserId,
+        //                AccountNumber = accountNumber,
+        //                AccountType = createAccountDto.Type.ToString(),
+        //                Balance = createAccountDto.Balance,
+        //                CreatedAt = DateTime.UtcNow,
+        //                UpdatedAt = DateTime.UtcNow
+        //            };
+        //            var createdAccount = await _accountRepository.CreateAsync(account);
+        //            var accountDto = MapToDto(createdAccount);
+
+        //            _logger.LogInformation("Account created successfully: {AccountId}", createdAccount.AccountId);
+        //            return ServiceResult<AccountDto>.SuccessResult(accountDto, "Account created successfully");
+        //        }
+
+        //        var existingAccount = await _accountRepository.GetByAccountNumberAsync(createAccountDto.AccountNumber);
+        //        if (existingAccount != null)
+        //            return ServiceResult<AccountDto>.FailureResult("Account number already exists");
+
+        //        return ServiceResult<AccountDto>.FailureResult("Account creation failed due to invalid data");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error creating account");
+        //        return ServiceResult<AccountDto>.FailureResult("An error occurred while creating the account");
+        //    }
+        //}
         public async Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto createAccountDto)
         {
             try
@@ -88,25 +126,37 @@ namespace Bank.Services
                 if (createAccountDto == null)
                     return ServiceResult<AccountDto>.FailureResult("Account data is required");
 
+                // Check if user already has an account of this type
+                var existingAccounts = await _accountRepository.GetByUserIdAsync(createAccountDto.UserId);
+                var hasAccountOfType = existingAccounts.Any(a => a.AccountType == createAccountDto.Type.ToString());
+
+                if (hasAccountOfType)
+                    return ServiceResult<AccountDto>.FailureResult($"User already has a {createAccountDto.Type} account");
+
+                if (string.IsNullOrWhiteSpace(createAccountDto.AccountNumber))
+                {
+                    string accountNumber = GenerateAccountNumber();
+                    var account = new Account
+                    {
+                        UserId = createAccountDto.UserId,
+                        AccountNumber = accountNumber,
+                        AccountType = createAccountDto.Type.ToString(),
+                        Balance = createAccountDto.Balance,
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow
+                    };
+                    var createdAccount = await _accountRepository.CreateAsync(account);
+                    var accountDto = MapToDto(createdAccount);
+
+                    _logger.LogInformation("Account created successfully: {AccountId}", createdAccount.AccountId);
+                    return ServiceResult<AccountDto>.SuccessResult(accountDto, "Account created successfully");
+                }
+
                 var existingAccount = await _accountRepository.GetByAccountNumberAsync(createAccountDto.AccountNumber);
                 if (existingAccount != null)
                     return ServiceResult<AccountDto>.FailureResult("Account number already exists");
 
-                var account = new Account
-                {
-                    UserId = createAccountDto.UserId,
-                    AccountNumber = createAccountDto.AccountNumber,
-                    AccountType = createAccountDto.Type.ToString(), // Fix: Convert AccountType enum to string  
-                    Balance = createAccountDto.Balance,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                };
-
-                var createdAccount = await _accountRepository.CreateAsync(account);
-                var accountDto = MapToDto(createdAccount);
-
-                _logger.LogInformation("Account created successfully: {AccountId}", createdAccount.AccountId);
-                return ServiceResult<AccountDto>.SuccessResult(accountDto, "Account created successfully");
+                return ServiceResult<AccountDto>.FailureResult("Account creation failed due to invalid data");
             }
             catch (Exception ex)
             {
@@ -333,6 +383,16 @@ namespace Bank.Services
             }
         }
 
+        //private string GenerateAccountNumber()
+        //{
+        //    Random random = new Random();
+        //    return $"{random.Next(10000000, 99999999):D8}";
+        //}
+        private string GenerateAccountNumber()
+        {
+            Random random = new Random();
+            return $"{random.Next(1000000000, 2000000000):D10}";
+        }
         private static AccountDto MapToDto(Account account)
         {
             return new AccountDto
@@ -340,7 +400,7 @@ namespace Bank.Services
                 AccountId = account.AccountId,
                 UserId = account.UserId,
                 AccountNumber = account.AccountNumber,
-                Type = Enum.Parse<AccountType>(account.AccountType), // Fix: Convert string to AccountType enum  
+                Type = Enum.Parse<AccountType>(account.AccountType), 
                 Balance = account.Balance,
                 CreatedAt = account.CreatedAt,
                 UpdatedAt = account.UpdatedAt
