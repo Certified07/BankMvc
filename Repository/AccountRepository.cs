@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using BankMvc.Contract.Repository;
 using BankMvc.Models.Entity;
 using BankMvc.DTO.Request;
+using BankMvc.Data;
 
 namespace Bank.Repositories
 {

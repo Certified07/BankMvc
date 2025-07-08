@@ -353,7 +353,7 @@ namespace Bank.Services
                 if (toAccount == null)
                     return ServiceResult<AccountDto>.FailureResult("Destination account not found");
 
-                if (fromAccount.Balance < amount)
+                if (amount > fromAccount.Balance)
                     return ServiceResult<AccountDto>.FailureResult("Insufficient funds in source account");
 
                 // Perform transfer

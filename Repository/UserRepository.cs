@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BankMvc.Models.Entity;
 using BankMvc.Contract.Repository;
- // Assuming you have a Data folder with DbContext
+// Assuming you have a Data folder with DbContext
+using BankMvc.Data;
 
 namespace BankMvc.Repository
 {

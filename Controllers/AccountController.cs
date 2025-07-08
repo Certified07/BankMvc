@@ -684,16 +684,16 @@ namespace BankMvc.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly ITransactionRepository _transactionRepository;
+        private readonly ITransactionService _transactionService;
         private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             IAccountService accountService,
-            ITransactionRepository transactionRepository,
+            ITransactionService transactionService,
             ILogger<AccountController> logger)
         {
             _accountService = accountService;
-            _transactionRepository = transactionRepository;
+            _transactionService = transactionService;
             _logger = logger;
         }
 
@@ -726,7 +726,7 @@ namespace BankMvc.Controllers
                     var recentTransactions = new List<TransactionSummaryViewModel>();
                     foreach (var account in accounts)
                     {
-                        var accountTransactions = _transactionRepository.GetByAccountId(account.AccountId);
+                        var accountTransactions = _transactionService.GetTransactionsByAccountId(account.AccountId);
                         recentTransactions.AddRange(accountTransactions.Select(t => new TransactionSummaryViewModel
                         {
                             TransactionId = t.TransactionId,
@@ -832,7 +832,8 @@ namespace BankMvc.Controllers
 
                 // Perform transfer using service layer
                 var transferResult = await _accountService.TransferAsync(model.FromAccountId, destinationAccountResult.Data.AccountId, model.Amount);
-                if (!transferResult.Success)
+                var addTransaction = _transactionService.ProcessTransfer(model.FromAccountId,destinationAccountResult.Data.AccountId, model.Amount, model.Description );
+                if (!transferResult.Success&&addTransaction==true)
                 {
                     return Json(new { success = false, message = transferResult.Errors != null && transferResult.Errors.Any() ? string.Join(", ", transferResult.Errors) : "Transfer failed" });
                 }
@@ -877,7 +878,8 @@ namespace BankMvc.Controllers
 
                 // Process deposit using service layer
                 var depositResult = await _accountService.DepositAsync(model.AccountId, model.Amount);
-                if (!depositResult.Success)
+                var addTransaction =  _transactionService.ProcessDeposit(model.AccountId, model.Amount, model.Description);
+                if (!depositResult.Success && addTransaction==true)
                 {
                     return Json(new { success = false, message = depositResult.Errors != null && depositResult.Errors.Any() ? string.Join(", ", depositResult.Errors) : "Deposit failed" });
                 }
@@ -890,6 +892,7 @@ namespace BankMvc.Controllers
                 return Json(new { success = false, message = "Deposit failed. Please try again." });
             }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Transactions(int id)
@@ -917,7 +920,7 @@ namespace BankMvc.Controllers
                     return RedirectToAction("Dashboard");
                 }
 
-                var transactions = _transactionRepository.GetByAccountId(id);
+                var transactions = _transactionService.GetTransactionsByAccountId(id);
                 var viewModel = new AccountTransactionsViewModel
                 {
                     Account = new AccountSummaryViewModel
@@ -987,7 +990,7 @@ namespace BankMvc.Controllers
                 var allTransactions = new List<TransactionSummaryViewModel>();
                 foreach (var account in accounts)
                 {
-                    var accountTransactions = _transactionRepository.GetByAccountId(account.AccountId);
+                    var accountTransactions = _transactionService.GetTransactionsByAccountId(account.AccountId);
                     allTransactions.AddRange(accountTransactions.Select(t => new TransactionSummaryViewModel
                     {
                         TransactionId = t.TransactionId,
@@ -1041,7 +1044,7 @@ namespace BankMvc.Controllers
                 }
 
                 // Get transaction details
-                var transaction = _transactionRepository.GetById(id);
+                var transaction = _transactionService.GetTransactionById(id);
                 if (transaction == null)
                 {
                     return Json(new { success = false, message = "Transaction not found" });
@@ -1155,7 +1158,7 @@ namespace BankMvc.Controllers
                     return NotFound();
                 }
 
-                var transactions = _transactionRepository.GetByAccountId(id);
+                var transactions = _transactionService.GetTransactionsByAccountId(id);
 
                 var accountEntity = new Account
                 {
@@ -1214,6 +1217,7 @@ namespace BankMvc.Controllers
 
                 // Process withdrawal using service layer
                 var withdrawResult = await _accountService.WithdrawAsync(model.AccountId, model.Amount);
+                var addTransaction = _transactionService.ProcessWithdrawal(model.AccountId, model.Amount, model.Description);
                 if (!withdrawResult.Success)
                 {
                     return Json(new { success = false, message = withdrawResult.Errors != null && withdrawResult.Errors.Any() ? string.Join(", ", withdrawResult.Errors) : "Withdrawal failed" });
